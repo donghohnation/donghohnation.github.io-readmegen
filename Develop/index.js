@@ -1,19 +1,19 @@
 // packages needed for this application
-const inquirer = require('inquirer');
 const fs = require('fs');
-const genMark = require('./utils/generateMarkdown.js')
+const inquirer = require('inquirer');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 
-// TODO: Create an array of questions for user input
+// questions array accessed with inquirer
 const questions = [
   {
     type: 'input',
     name: 'title',
-    message: 'what is the title of this project?',
+    message: 'What is the title of your project?',
     validate: titleInput => {
       if (titleInput) {
         return true;
       } else {
-        console.log('please enter a project title');
+        console.log('Please enter a project title');
         return false;
       }
     }
@@ -21,13 +21,13 @@ const questions = [
   {
     type: 'list',
     name: 'license',
-    message: 'what license does your project use?',
-    choices: ['none', 'apache 2.0', 'MIT', 'GPL', 'v3.0'],
+    message: 'What license does your project use?',
+    choices: ['None', 'Apache 2.0', 'MIT', 'GPL v3.0'],
     validate: licenseInput = () => {
       if (licenseInput) {
         return true;
       } else {
-        console.log('please select one of the four options')
+        console.log('Please select one of the four options')
         return false;
       }
     }
@@ -35,12 +35,12 @@ const questions = [
   {
     type: 'input',
     name: 'description',
-    message: 'provide project description',
+    message: 'Provide a project description',
     validate: descriptionInput => {
       if (descriptionInput) {
         return true;
       } else {
-        console.log('please provide a project description');
+        console.log('Please provide a project description');
         return false;
       }
     }
@@ -48,12 +48,12 @@ const questions = [
   {
     type: 'input',
     name: 'installation',
-    message: 'what steps are needed to install your project?',
+    message: 'What steps are needed to install your project?',
     validate: installationInput => {
       if (installationInput) {
         return true;
       } else {
-        console.log('please provide installation steps');
+        console.log('Please provide installation steps');
         return false;
       }
     }
@@ -61,12 +61,12 @@ const questions = [
   {
     type: 'input',
     name: 'usage',
-    message: 'what is the use of your project?',
+    message: 'What is the use of your project?',
     validate: usageInput => {
       if (usageInput) {
         return true;
       } else {
-        console.log('please provide a use for you project');
+        console.log('Please provide a use for your project');
         return false;
       }
     }
@@ -74,25 +74,25 @@ const questions = [
   {
     type: 'input',
     name: 'contributions',
-    message: 'what buidelines must others follow in order to contribute?',
+    message: 'What guidelines must others follow in order to contribute?',
     validate: contributionsInput => {
       if (contributionsInput) {
         return true;
       } else {
-        console.log('please enter contribution guidelines');
+        console.log('Please enter contribution guidelines');
         return false;
       }
     }
   },
   {
     type: 'input',
-    name: 'test',
-    message: 'how do you test this project?',
-    validate: testInput => {
-      if (testInput) {
+    name: 'tests',
+    message: 'How do you test this project?',
+    validate: testingInput => {
+      if (testingInput) {
         return true;
       } else {
-        console.log('please explain how to test this project');
+        console.log('Please explain how to test this project');
         return false;
       }
     }
@@ -100,12 +100,12 @@ const questions = [
   {
     type: 'input',
     name: 'askMe',
-    message: 'what is your GitHub username so others can reach you for questions?',
+    message: 'What is your Github username so others can reach you for questions?',
     validate: askMeInput => {
       if (askMeInput) {
         return true;
       } else {
-        console.log('please provide your GitHub username');
+        console.log('Please provide your username so others can reach out to you with questions');
         return false;
       }
     }
@@ -113,21 +113,24 @@ const questions = [
   {
     type: 'input',
     name: 'email',
-    message: 'what is your email?',
+    message: 'What is your email so there is another way to be reached for questions?',
     validate: emailInput => {
       if (emailInput) {
         return true;
       } else {
-        console.log('please enter a project title');
+        console.log('Please provide an email');
         return false;
       }
     }
   }
 ];
 
-// TODO: Create a function to write README file
-function writeToFile = fileContent => {
-  return newPromise((resolve, reject) => {
+
+
+
+// function to write README file
+const writeToFile = fileContent => {
+  return new Promise((resolve, reject) => {
     fs.writeFile('./generatedREADME.md', fileContent, err => {
       if (err) {
         reject(err);
@@ -140,14 +143,12 @@ function writeToFile = fileContent => {
   });
 };
 
-
-
-// TODO: Create a function to initialize app
+// function to initialize app
 function init() {
   inquirer.prompt(questions)
     .then(function (answer) {
       console.log(answer);
-      var fileContent = generatedMarkdown(answer);
+      var fileContent = generateMarkdown(answer);
       writeToFile(fileContent)
     });
 }
@@ -155,5 +156,5 @@ function init() {
 // Function call to initialize app
 init();
 
-//exports
+// exports
 module.exports = questions;
